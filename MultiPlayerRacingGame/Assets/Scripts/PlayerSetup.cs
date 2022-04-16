@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using TMPro;
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
     public Camera PlayerCamera;
+    public TextMeshProUGUI PlayerNameText;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,19 +14,28 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         {
             // enable carmovement script and camera
             GetComponent<CarMoveMent>().enabled = true;
+            GetComponent<LapController>().enabled = true;
             PlayerCamera.enabled = true;
 		}   
         else
 		{
             // player is remote. Disable CarMovement script and Camera
             GetComponent<CarMoveMent>().enabled = false;
+            GetComponent<LapController>().enabled = false;
             PlayerCamera.enabled = false;
 		}
+        SetPlayerUI();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private void SetPlayerUI()
+	{
+        if (PlayerNameText != null)
+		{
+            PlayerNameText.text = photonView.Owner.NickName;
+            if (photonView.IsMine)
+            {
+                PlayerNameText.gameObject.SetActive(false);
+            }
+        }
+	}
 }

@@ -1,13 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
+
 public class RacingModeGameManager : MonoBehaviour
 {
     public GameObject[] PlayerPrefabs;
     public Transform[] InstantiatePositions;
+    public Text TimeUIText;
+    public GameObject[] FinishOrderUIGameObjects;
 
-    void Start()
+    public List<GameObject> lapTriggers = new List<GameObject>();
+
+    public static RacingModeGameManager instance = null;
+
+	private void Awake()
+	{
+        if (instance == null)
+		{
+            instance = this;
+		}
+        else if (instance != this)
+		{
+            Destroy(gameObject);
+		}
+        DontDestroyOnLoad(gameObject);
+    }
+	void Start()
     {
         if (PhotonNetwork.IsConnectedAndReady)
 		{
@@ -20,12 +40,10 @@ public class RacingModeGameManager : MonoBehaviour
                 PhotonNetwork.Instantiate(PlayerPrefabs[(int)playerSelectionNumber].name, instantiatePosition, Quaternion.identity);
             }
         }
-        
+        foreach (GameObject gm in FinishOrderUIGameObjects)
+		{
+            gm.SetActive(false);
+		}
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
