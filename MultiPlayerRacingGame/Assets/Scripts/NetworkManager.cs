@@ -34,6 +34,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public Image PanelBackground;
     public Sprite RacingBackground;
     public Sprite DeathRaceBackground;
+    public GameObject[] PlayerSelectionUIGameObjects;
+    public DeathRacePlayer[] DeathRacePlayers;
+    public RacingPlayer[] RacingPlayers;
 
     [Header("Join Random Room Panel")]
     public GameObject JoinRandomRoomUIPanel;
@@ -172,15 +175,28 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc"))
         {
             // racing game mode
-
             GameModeText.text = "LET's RACE!";
             PanelBackground.sprite = RacingBackground;
+
+            for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++)
+            {
+                PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = RacingPlayers[i].playerName;
+                PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = RacingPlayers[i].playerSprite;
+                PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = "";
+            }
         } else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr"))
 		{
             // death game mode
 
             GameModeText.text = "DEATH RACE!";
             PanelBackground.sprite = DeathRaceBackground;
+            for (int i=0; i< PlayerSelectionUIGameObjects.Length; i++)
+			{
+                PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = DeathRacePlayers[i].playerName;
+                PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = DeathRacePlayers[i].playerSprite;
+                PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text =
+                    DeathRacePlayers[i].weaponName + " : " + "Damage: " + DeathRacePlayers[i].damage + " Firerate : " + DeathRacePlayers[i].fireRate;
+            }
 		}
 
 

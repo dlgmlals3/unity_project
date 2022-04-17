@@ -628,7 +628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &223612672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1359,7 +1359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &299006210
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4623,6 +4623,18 @@ MonoBehaviour:
   PanelBackground: {fileID: 1598625409}
   RacingBackground: {fileID: 21300000, guid: df5dd41c5770c434ca5c0f00460b1e12, type: 3}
   DeathRaceBackground: {fileID: 21300000, guid: ffa5b662caf5e0d4abe760fcb445f479, type: 3}
+  PlayerSelectionUIGameObjects:
+  - {fileID: 1833322808}
+  - {fileID: 1736180112}
+  - {fileID: 299006209}
+  DeathRacePlayers:
+  - {fileID: 11400000, guid: 9a18d420c0d824148abd3685db40f0e3, type: 2}
+  - {fileID: 11400000, guid: e60c440e842e9424582cb33b9eb62c16, type: 2}
+  - {fileID: 11400000, guid: ecb16ab3a38b28242b3f809cd9cc7c79, type: 2}
+  RacingPlayers:
+  - {fileID: 11400000, guid: 6ea92fadd80b7bc45a71d5b562c5e2f0, type: 2}
+  - {fileID: 11400000, guid: 45722113d5556aa408f735458ff051a7, type: 2}
+  - {fileID: 11400000, guid: 179d3bcf4e1c72e44a59d19d20d50080, type: 2}
   JoinRandomRoomUIPanel: {fileID: 1438516555}
 --- !u!4 &1224160409
 Transform:
@@ -6619,7 +6631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1694358757
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6851,7 +6863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1805289357
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6930,7 +6942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1833322809
 RectTransform:
   m_ObjectHideFlags: 0

@@ -41,6 +41,7 @@ public class LapController : MonoBehaviourPun
             string nickNameOfFinishedPlayer = (string)data[0];
             finishOrder = (int)data[1];
             int viewId = (int)data[2];
+            Debug.Log("dlgmlals3 OnEvent " + finishOrder + " viewID : " + viewId + " " + "name : " + nickNameOfFinishedPlayer);
 
             GameObject orderUITextGameObject = RacingModeGameManager.instance.FinishOrderUIGameObjects[finishOrder - 1];
             orderUITextGameObject.SetActive(true);
@@ -60,11 +61,11 @@ public class LapController : MonoBehaviourPun
 
 	private void OnTriggerEnter(Collider other)
 	{
-        Debug.Log("dlgmlals3 OnTriggerEnter : " + other.name);
+        
         if (LabTriggers.Contains(other.gameObject))
 		{
             int indexOfTrigger = LabTriggers.IndexOf(other.gameObject);
-            LabTriggers[indexOfTrigger].SetActive(false);
+            //LabTriggers[indexOfTrigger].SetActive(false);
             if (other.name == "FinishTrigger")
 			{
                 // game is finished
@@ -90,8 +91,9 @@ public class LapController : MonoBehaviourPun
         };
         SendOptions sendOptions = new SendOptions
         {
-            Reliability = false
+            Reliability = true
         };
+        Debug.Log("dlgmlals3 send raise order" + finishOrder + " view : "+ viewId +" " + nickName);
         PhotonNetwork.RaiseEvent((byte)RaiseEventCode.WhoFinishedEventCode, data, raiseEventOptions, sendOptions);
 	}
 }
