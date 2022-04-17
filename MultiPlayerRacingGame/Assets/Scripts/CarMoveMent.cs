@@ -19,6 +19,7 @@ public class CarMoveMent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("why update : " + controlEnabled);
         if (controlEnabled)
         {
             // moving forward
