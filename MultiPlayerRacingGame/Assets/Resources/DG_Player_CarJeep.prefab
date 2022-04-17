@@ -220,9 +220,11 @@ GameObject:
   - component: {fileID: 2644790937767225916}
   - component: {fileID: 3672326727370610194}
   - component: {fileID: 8629211204846041193}
+  - component: {fileID: 4017863181718062248}
   - component: {fileID: 610964513322123769}
   - component: {fileID: 1699883963304893506}
   - component: {fileID: 3969797348937830887}
+  - component: {fileID: 227262969}
   m_Layer: 0
   m_Name: DG_Player_CarJeep
   m_TagString: Player
@@ -300,6 +302,24 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4017863181718062248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297249700076169209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8029508a64bc5d24da44aef5f7c448e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  healthBar: {fileID: 5946105997015590243}
+  PlayerGraphics: {fileID: 2018793889560387852}
+  PlayerUI: {fileID: 8653947417775955178}
+  PlayerWeaponHolder: {fileID: 3335007551839991}
+  DeathPanelUIPrefab: {fileID: 3593783272886976281, guid: 9bfb0f188d017884ca4192b2ecb55586, type: 3}
 --- !u!114 &610964513322123769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +365,23 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &227262969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297249700076169209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3176580c1b0dc141a4a9db6b7e0d99c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 2341865712234042820, guid: 2f77b45aab7070c4aad64a0699fbb716, type: 3}
+  firePosition: {fileID: 1721425625}
+  PlayerCamera: {fileID: 5697894330807671576}
+  DeathRacePlayerProperties: {fileID: 11400000, guid: 9a18d420c0d824148abd3685db40f0e3, type: 2}
+  lineRenderer: {fileID: 0}
 --- !u!1 &4512136407534517126
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,7 +771,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.495
+  m_FillAmount: 0.905
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

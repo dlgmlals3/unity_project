@@ -241,7 +241,9 @@ GameObject:
   - component: {fileID: 5945438357724921948}
   - component: {fileID: 3182086388783944702}
   - component: {fileID: 592648693367241347}
+  - component: {fileID: 8239976072147572246}
   - component: {fileID: 4207079514989564594}
+  - component: {fileID: 1177371593}
   m_Layer: 0
   m_Name: DG_Player_CarSport
   m_TagString: Player
@@ -349,7 +351,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustForce: {x: 0, y: 0, z: 45}
   rotationTorque: {x: 0, y: 8, z: 0}
-  controlEnabled: 0
+  controlEnabled: 1
+--- !u!114 &8239976072147572246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189090968767411349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8029508a64bc5d24da44aef5f7c448e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  healthBar: {fileID: 4743990239124289505}
+  PlayerGraphics: {fileID: 1794880438820313497}
+  PlayerUI: {fileID: 7731054696926973544}
+  PlayerWeaponHolder: {fileID: 1452987648173347161}
+  DeathPanelUIPrefab: {fileID: 3593783272886976281, guid: 9bfb0f188d017884ca4192b2ecb55586, type: 3}
 --- !u!114 &4207079514989564594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +384,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 8985360257163249780}
   PlayerNameText: {fileID: 8612707795153771747}
+--- !u!114 &1177371593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189090968767411349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3176580c1b0dc141a4a9db6b7e0d99c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 0}
+  firePosition: {fileID: 1640175523}
+  PlayerCamera: {fileID: 8985360257163249780}
+  DeathRacePlayerProperties: {fileID: 11400000, guid: ecb16ab3a38b28242b3f809cd9cc7c79, type: 2}
+  lineRenderer: {fileID: 1640175522}
 --- !u!1 &3537330560672789734
 GameObject:
   m_ObjectHideFlags: 0

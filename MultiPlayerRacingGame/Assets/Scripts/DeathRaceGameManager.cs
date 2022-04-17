@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
-public class DeathRaceGameManager : MonoBehaviour
+using UnityEngine.SceneManagement;
+public class DeathRaceGameManager : MonoBehaviourPunCallbacks
 {
     public GameObject[] PlayerPrefabs;
     // Start is called before the first frame update
@@ -21,9 +21,12 @@ public class DeathRaceGameManager : MonoBehaviour
 		
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void OnQuitMatchButtonClicked()
+	{
+        PhotonNetwork.LeaveRoom();
+	}
+    public override void OnLeftRoom()
+	{
+        SceneManager.LoadScene("LobbyScene");
+	}
 }

@@ -566,7 +566,9 @@ GameObject:
   - component: {fileID: 3482768827482843505}
   - component: {fileID: 4090759106421490982}
   - component: {fileID: 6413927756708364610}
+  - component: {fileID: 1531304505653462417}
   - component: {fileID: 8814376836337263830}
+  - component: {fileID: 1693108331}
   m_Layer: 0
   m_Name: DG_Player_CarMuscle
   m_TagString: Player
@@ -675,6 +677,24 @@ MonoBehaviour:
   thrustForce: {x: 0, y: 0, z: 45}
   rotationTorque: {x: 0, y: 8, z: 0}
   controlEnabled: 0
+--- !u!114 &1531304505653462417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4689008684380552187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8029508a64bc5d24da44aef5f7c448e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 100
+  healthBar: {fileID: 6169995472539599823}
+  PlayerGraphics: {fileID: 4066029184427409344}
+  PlayerUI: {fileID: 9168214507227658822}
+  PlayerWeaponHolder: {fileID: 6629574214750171726}
+  DeathPanelUIPrefab: {fileID: 3593783272886976281, guid: 9bfb0f188d017884ca4192b2ecb55586, type: 3}
 --- !u!114 &8814376836337263830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,6 +709,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerCamera: {fileID: 1288364109427902234}
   PlayerNameText: {fileID: 7201343586434115789}
+--- !u!114 &1693108331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4689008684380552187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3176580c1b0dc141a4a9db6b7e0d99c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 8199238421558078776, guid: 35d44458c1899014786bf478fba74a09, type: 3}
+  firePosition: {fileID: 465340505}
+  PlayerCamera: {fileID: 1288364109427902234}
+  DeathRacePlayerProperties: {fileID: 11400000, guid: e60c440e842e9424582cb33b9eb62c16, type: 2}
+  lineRenderer: {fileID: 0}
 --- !u!1 &6455898760384394329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1270,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6435090881391753172
 MonoBehaviour:
   m_ObjectHideFlags: 0
