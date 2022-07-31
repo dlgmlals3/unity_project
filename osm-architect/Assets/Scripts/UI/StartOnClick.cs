@@ -1,6 +1,5 @@
 ﻿using Libraries.Simple_Scene_Fade_Load_System.Scripts;
 using UnityEngine;
-using UnityEngine.VR;
 using UnityEngine.XR;
 using Utils;
 

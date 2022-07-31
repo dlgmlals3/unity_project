@@ -163,7 +163,7 @@ namespace _3D
         {
             var gameObjectArea = new GameObject(buildingName);
 #if UNITY_EDITOR
-            const StaticEditorFlags flags = StaticEditorFlags.BatchingStatic | StaticEditorFlags.LightmapStatic;
+            const StaticEditorFlags flags = StaticEditorFlags.BatchingStatic | StaticEditorFlags.ContributeGI;
             GameObjectUtility.SetStaticEditorFlags(gameObjectArea, flags);
 #endif
             var meshFilter = (MeshFilter) gameObjectArea.AddComponent(typeof(MeshFilter));
