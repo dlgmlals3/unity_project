@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f92dea012958018408139417705dc2b1, type: 3}
+  m_Name: ProceduralParameter
+  m_EditorClassIdentifier: 
+  width: 30
+  height: 27
+  shapeWidth: 1
+  shapeHeight: 3.2
+  shapeDepth: 2
+  maxRandomHeight: 5
+  maxRandomWidth: 5
+  maxRandomDepth: 5
+  maxRandomWidthOffset: 5
+  maxRandomHeightOffset: 10
+  maxRandomDepthOffset: 10
+  marginBetweenShapes: {x: 0, y: 0, z: 0}
+  randomSeed: 85
+  proceduralMaterialsToGenerate: 3
+  proceduralMaterials: []
+  defaultMaterial: []
+  shapeType: 0
+  shaderName: Universal Render Pipeline/Lit
+  makeShapesStatic: 0
+  shouldGenerateRigidBodies: 1

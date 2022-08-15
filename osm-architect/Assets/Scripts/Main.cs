@@ -49,9 +49,6 @@ public class Main : MonoBehaviour
      */
     private void Awake()
     {
-        PrepareSavedObjectsForFutureSave();
-        CanRenderObjects = !Settings.TerrainToggle;
-        CameraTransform = Camera.main.transform;
     }
 
     /**
@@ -59,13 +56,8 @@ public class Main : MonoBehaviour
      */
     private void Start()
     {
-        Caching.ClearCache();
-        //hide and lock cursor into center
-        UiUtils.HideCursor();
-
-        TutorialUtils.InitTutorial(TutorialCanvas, Settings);
-        BuildingPickerCanvas.SetActive(false);
-        ExitCanvasDialog.SetActive(false);
+        Map = new Map();
+        Map.MapName = "finalbrno.osm";
 
         //load XML file tags
         var xmlFile = new XmlDocument();
@@ -89,19 +81,6 @@ public class Main : MonoBehaviour
         StartCoroutine(RenderObjects(mapMiddlePoint, buildings, roads, trees));
     }
 
-    /**
-     * Set controls
-     */
-    private void Update()
-    {
-        TutorialUtils.ShowTutorial(TutorialCanvas, Settings);
-        EnvironmentRender.Get().SetSkyBox();
-        BuildingPlacer.PlaceNewBuildingListener();
-        MenuController.Get().SetCanvasListener(TutorialCanvas, BuildingPickerCanvas, BuildingNameLabel, ExitCanvasDialog);
-        Movement.SetKeyboard(CameraTransform);
-        Movement.SetMouse(CameraTransform);
-        Movement.SetGamePad(CameraTransform);
-    }
 
     /**
      * Clear added/removed objects in lists when scene will be destroyed
@@ -143,9 +122,6 @@ public class Main : MonoBehaviour
         else if (roads.Count != 0)
             middleMapPointLatLng = TerrainRender.GetMiddlePoint(roads);
 
-        //set default camera position
-        var middlePoint = Converter.ConvertLatLngToXyz(middleMapPointLatLng);
-        UiUtils.SetDefaultCameraPos(middlePoint, transform);
         return middleMapPointLatLng;
     }
 
