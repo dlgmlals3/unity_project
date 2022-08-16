@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77370c4037be1940845d8af156bd52c, type: 3}
+  m_Name: DefaultTheme
+  m_EditorClassIdentifier: 
+  wallPrefab: {fileID: 4066723358864376457, guid: 71b464da06cf7bf4893bed51d3d494b1,
+    type: 3}
+  keepInsideWalls: 1
+  windowPrefabs:
+  - {fileID: 1260957636528414, guid: 26f2d9853acf5514eaec787bf29a7ce2, type: 3}
+  - {fileID: 1775332629073278, guid: fcaf887671271c64e99456647b8364dd, type: 3}
+  randomizeWindowSelection: 1
+  windowPercentChance: 0.495
+  roofPrefabs:
+  - {fileID: 7991190312451939248, guid: 3c07f2dffeb239e4fa4173a4594192c0, type: 3}
+  randomizeRoofSelection: 1
+  includeRoof: 1
+  doorPrefab: {fileID: 4066723358864376457, guid: 87304dbaabb7aab4e862b7148c2ddb13,
+    type: 3}
+  doorPercentChance: 1
+  floors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cellUnitSize: 1
+  numberOfFloors: 4
+  rows: 2
+  columns: 2
+  randomizeRows: 0
+  randomizeColumns: 0

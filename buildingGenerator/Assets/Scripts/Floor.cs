@@ -8,16 +8,14 @@ public class Floor : MonoBehaviour
 	public int FloorNumber { get; private set; }
 	[SerializeField]
 	public Room[,] rooms;
-	/*
-	[0, 0, 0]
-	[0, 0, 0]
-	[0, 0, 0]
+	public int Rows { get; private set; }
+	public int Columns { get; private set; }
 
-
-	 */
 	public Floor(int floorNumber, Room[,] rooms)
 	{
 		FloorNumber = floorNumber;
 		this.rooms = rooms;
+		Rows = rooms.GetLength(0);
+		Columns = rooms.GetLength(1);
 	}
 }

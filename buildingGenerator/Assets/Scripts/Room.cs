@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : MonoBehaviour
+public class Room
 {
-	public Wall[] walls;
+	public Wall[] Walls { get; set; } = new Wall[4];
 
 	private Vector2 position;
 
-	public bool HasRoof { get; private set; }
+	public bool HasRoof { get; set; }
 
-	public Room(Vector2 position, bool hasRoof = false)
+	public RoomRay RoomRay { get; private set; }
+
+	public int FloorNumber { get; set; }
+	public Room(Vector2 position, bool hasRoof = false, RoomRay roomRay = null)
 	{
 		this.position = position;
 		this.HasRoof = hasRoof;
+		this.RoomRay = roomRay;
 	}
 	public Vector2 RoomPosition
 	{
@@ -22,4 +26,5 @@ public class Room : MonoBehaviour
 			return this.position;
 		}
 	}
+
 }
