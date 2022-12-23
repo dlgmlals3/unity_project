@@ -18,6 +18,12 @@ public class CustomTerrainEditor : Editor
 	SerializedProperty perlinPersistance;
 	SerializedProperty perlinHeightScale;
 	SerializedProperty resetTerrain;
+	SerializedProperty voronoiFallOff;
+	SerializedProperty voronoiDropOff;
+	SerializedProperty voronoiMinHeight;
+	SerializedProperty voronoiMaxHeight;
+	SerializedProperty voronoiPeaks;
+	SerializedProperty voronoiType;
 
 	GUITableState perlinParameterTable;
 	SerializedProperty perlinParameters;
@@ -26,6 +32,8 @@ public class CustomTerrainEditor : Editor
 	bool showLoadHeights = false;
 	bool showPerlinNoise = false;
 	bool showMultiplePerlin = false;
+	bool showVoronoi = false;
+
 	private void OnEnable()
 	{
 		randomHeightRange = serializedObject.FindProperty("randomHeightRange");
@@ -42,6 +50,13 @@ public class CustomTerrainEditor : Editor
 
 		perlinParameterTable = new GUITableState("perlinParameterTable");
 		perlinParameters = serializedObject.FindProperty("perlinParameters");
+
+		voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
+		voronoiDropOff = serializedObject.FindProperty("voronoiDropOff");
+		voronoiFallOff = serializedObject.FindProperty("voronoiFallOff");
+		voronoiMinHeight = serializedObject.FindProperty("voronoiMinHeight");
+		voronoiMaxHeight = serializedObject.FindProperty("voronoiMaxHeight");
+		voronoiType = serializedObject.FindProperty("voronoiType");
 	}
 
 	public override void OnInspectorGUI()
@@ -115,8 +130,25 @@ public class CustomTerrainEditor : Editor
 			{
 				terrain.MultiplePerlinTerrain();
 			}
+
+
 		}
 
+		showVoronoi = EditorGUILayout.Foldout(showVoronoi, "Voronoi");
+		if (showVoronoi)
+		{
+			EditorGUILayout.IntSlider(voronoiPeaks, 1, 10, new GUIContent("Peak Count"));
+			EditorGUILayout.Slider(voronoiFallOff, 0, 10, new GUIContent("voronoiFallOff"));
+			EditorGUILayout.Slider(voronoiDropOff, 0, 10, new GUIContent("voronoiDropOff"));
+			EditorGUILayout.Slider(voronoiMinHeight, 0, 1, new GUIContent("voronoiMinHeight"));
+			EditorGUILayout.Slider(voronoiMaxHeight, 0, 1, new GUIContent("voronoiMaxHeight"));
+			EditorGUILayout.PropertyField(voronoiType);
+
+			if (GUILayout.Button("Voronoi"))
+			{
+				terrain.Voronoi();
+			}
+		}
 		EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 		if (GUILayout.Button("Reset Terrain"))
 		{
