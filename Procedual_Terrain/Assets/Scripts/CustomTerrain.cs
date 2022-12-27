@@ -37,6 +37,27 @@ public class CustomTerrain : MonoBehaviour
     {
         new PerlinParameters() // 빈목록 만들기
     };
+
+    [System.Serializable]
+    public class SplatHeights
+	{
+        public Texture2D texture = null;
+        public float minHeight = 0.1f;
+        public float maxHeight = 0.2f;
+        public Vector2 tileOffset = new Vector2(0, 0);
+        public Vector2 tileSize = new Vector2(50, 50);
+        public float splatOffset = 0.1f;
+        public float splatNoiseXScale = 0.01f;
+        public float splatNoiseYScale = 0.01f;
+        public float splatNoiseScaler = 0.1f;
+        public bool remove = false;
+	}
+
+    public List<SplatHeights> splatHeights = new List<SplatHeights>()
+    {
+        new SplatHeights()
+    };
+
     // VORONOI
     public float voronoiFallOff = 0.2f;
     public float voronoiDropOff = 0.6f;
@@ -59,7 +80,93 @@ public class CustomTerrain : MonoBehaviour
     public Terrain terrain;
     public TerrainData terrainData;
 
-    public void Smooth()
+    public void AddNewSplatHeight()
+	{
+        splatHeights.Add(new SplatHeights());
+	}
+
+    public void RemoveSplatHeight()
+	{
+        List<SplatHeights> keptSplatHeights = new List<SplatHeights>();
+        for (int i = 0; i < splatHeights.Count; i++)
+		{
+            if (!splatHeights[i].remove)
+			{
+                keptSplatHeights.Add(splatHeights[i]);
+			}
+		}
+        if (keptSplatHeights.Count == 0)
+		{
+            keptSplatHeights.Add(splatHeights[0]);
+		}
+        splatHeights = keptSplatHeights;
+	}
+
+	public void SplatMaps()
+	{
+		TerrainLayer[] terrainLayer;
+        terrainLayer = new TerrainLayer[splatHeights.Count];
+		int terrainIndex = 0;
+		foreach (SplatHeights sh in splatHeights)
+		{
+			terrainLayer[terrainIndex] = new TerrainLayer();
+            terrainLayer[terrainIndex].diffuseTexture = sh.texture;
+            terrainLayer[terrainIndex].tileOffset = sh.tileOffset;
+            terrainLayer[terrainIndex].tileSize = sh.tileSize;
+            terrainLayer[terrainIndex].diffuseTexture.Apply(true);
+            terrainIndex++;
+		}
+        terrainData.terrainLayers = terrainLayer;
+
+        float[,] heightMap = terrainData.GetHeights(0, 0, 
+            terrainData.heightmapResolution,
+            terrainData.heightmapResolution);
+        float[,,] splatmapData = new float[
+            terrainData.alphamapWidth,
+            terrainData.alphamapHeight,
+            terrainData.alphamapLayers];
+        for (int y = 0; y < terrainData.alphamapHeight; y++)
+		{
+            for (int x = 0; x < terrainData.alphamapWidth; x++)
+			{
+                float[] splat = new float[terrainData.alphamapLayers];
+                for (int i=0; i < splatHeights.Count; i++)
+				{
+                    float noise = Mathf.PerlinNoise(x * splatHeights[i].splatNoiseXScale,
+                                                      y * splatHeights[i].splatNoiseYScale) 
+                                                      * splatHeights[i].splatNoiseScaler;
+                    float offset = splatHeights[i].splatOffset + noise;
+                    float thisHeightStart = splatHeights[i].minHeight - offset;
+                    float thisHeightStop = splatHeights[i].maxHeight + offset;  
+                    if ((heightMap[x, y] >= thisHeightStart && heightMap[x, y] <= thisHeightStop))
+					{
+                        splat[i] = 1;
+					}
+				}
+                NormalizeVector(splat);
+                for (int j = 0; j< splatHeights.Count; j++)
+				{
+                    splatmapData[x, y, j] = splat[j];
+				}
+			}
+		}
+        terrainData.SetAlphamaps(0, 0, splatmapData);
+	}
+
+    void NormalizeVector(float[] v)
+	{
+        float total = 0;
+        for (int i = 0; i < v.Length; i++)
+		{
+            total += v[i];
+		}
+        for (int i=0; i < v.Length; i++)
+		{
+            v[i] /= total;
+		}
+	}
+
+	public void Smooth()
 	{
         float[,] heightMap = terrainData.GetHeights(0, 0, terrainData.heightmapResolution,
             terrainData.heightmapResolution);
@@ -405,10 +512,4 @@ public class CustomTerrain : MonoBehaviour
             newTagProp.stringValue = newTag;
         }
 	}
-     
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
