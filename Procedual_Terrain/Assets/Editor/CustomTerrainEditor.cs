@@ -32,10 +32,6 @@ public class CustomTerrainEditor : Editor
 
 	GUITableState splatMapTable;
 	SerializedProperty splatHeigths;
-	/*SerializedProperty splatOffset;
-	SerializedProperty splatNoiseXScale;
-	SerializedProperty splatNoiseYScale;
-	SerializedProperty splatNoiseScaler;*/
 
 	GUITableState perlinParameterTable;
 	SerializedProperty perlinParameters;
@@ -79,10 +75,6 @@ public class CustomTerrainEditor : Editor
 		smoothAmount = serializedObject.FindProperty("smoothAmount");
 
 		splatMapTable = new GUITableState("splatMapTable");
-		/*splatOffset = serializedObject.FindProperty("splatOffset");
-		splatNoiseXScale = serializedObject.FindProperty("splatNoiseXScale");
-		splatNoiseYScale = serializedObject.FindProperty("splatNoiseYScale");
-		splatNoiseScaler = serializedObject.FindProperty("splatNoiseScaler");*/
 	}
 
 	Vector2 scrollPos;
@@ -91,12 +83,6 @@ public class CustomTerrainEditor : Editor
 		serializedObject.Update();
 		CustomTerrain terrain = (CustomTerrain)target;
 
-		// Scrollbar Starting Code
-		/*Rect r = EditorGUILayout.BeginVertical();
-		scrollPos =
-			EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(r.width), GUILayout.Height(r.height));
-		EditorGUI.indentLevel++;
-*/
 		EditorGUILayout.PropertyField(resetTerrain);
 		showRandom = EditorGUILayout.Foldout(showRandom, "Random");
 		if (showRandom)
@@ -202,10 +188,6 @@ public class CustomTerrainEditor : Editor
 			GUILayout.Label("Splat Maps", EditorStyles.boldLabel);
 			splatMapTable = GUITableLayout.DrawTable(splatMapTable,
 				serializedObject.FindProperty("splatHeights"));
-			/*EditorGUILayout.Slider(splatOffset, 0, 0.1f, new GUIContent("Offset"));
-			EditorGUILayout.Slider(splatNoiseXScale, 0.001f, 1f, new GUIContent("Noise X Scale"));
-			EditorGUILayout.Slider(splatNoiseYScale, 0.001f, 1f, new GUIContent("Noise Y Scale"));
-			EditorGUILayout.Slider(splatNoiseScaler, 0, 1, new GUIContent("Noise Scaler"));*/
 
 			GUILayout.Space(20);
 			EditorGUILayout.BeginHorizontal();
