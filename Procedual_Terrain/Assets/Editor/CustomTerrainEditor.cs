@@ -44,6 +44,10 @@ public class CustomTerrainEditor : Editor
 	bool showMPD = false;
 	bool showSmooth = false;
 	bool showSplatMaps = false;
+	bool showHeights = false;
+
+	Texture2D hmTexture;
+
 	private void OnEnable()
 	{
 		randomHeightRange = serializedObject.FindProperty("randomHeightRange");
@@ -75,6 +79,7 @@ public class CustomTerrainEditor : Editor
 		smoothAmount = serializedObject.FindProperty("smoothAmount");
 
 		splatMapTable = new GUITableState("splatMapTable");
+		hmTexture = new Texture2D(513, 513, TextureFormat.ARGB32, false);
 	}
 
 	Vector2 scrollPos;
@@ -222,9 +227,37 @@ public class CustomTerrainEditor : Editor
 			terrain.ResetTerrain();
 		}
 
-		// Scrollbar ending code
-		//EditorGUILayout.EndScrollView();
-		//EditorGUILayout.EndVertical();
+		showHeights = EditorGUILayout.Foldout(showLoadHeights, "Height Map");
+		if (showHeights)
+		{
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
+			int hmtSize = (int)(EditorGUIUtility.currentViewWidth - 100);
+			GUILayout.Label(hmTexture, GUILayout.Width(hmtSize), GUILayout.Height(hmtSize));
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
+			if (GUILayout.Button("Refresh", GUILayout.Width(hmtSize)))
+			{
+				float[,] heightMap = terrain.terrainData.GetHeights(0, 0,
+					terrain.terrainData.heightmapResolution,
+					terrain.terrainData.heightmapResolution);
+				for (int y = 0; y < terrain.terrainData.heightmapResolution; y++)
+				{
+					for (int x = 0; x < terrain.terrainData.heightmapResolution; x++)
+					{
+						hmTexture.SetPixel(x, y, new Color(
+							heightMap[x, y],
+							heightMap[x, y],
+							heightMap[x, y], 1));
+					}
+				}
+				hmTexture.Apply();
+			}
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+		}
 		serializedObject.ApplyModifiedProperties();
 	}
 
