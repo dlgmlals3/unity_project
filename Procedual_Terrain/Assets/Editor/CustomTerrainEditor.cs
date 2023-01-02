@@ -36,6 +36,12 @@ public class CustomTerrainEditor : Editor
 	GUITableState perlinParameterTable;
 	SerializedProperty perlinParameters;
 
+	GUITableState vegMapTable;
+	SerializedProperty vegetation;
+	SerializedProperty maxTrees;
+	SerializedProperty treeSpacing;
+
+
 	bool showRandom = false;
 	bool showLoadHeights = false;
 	bool showPerlinNoise = false;
@@ -45,6 +51,7 @@ public class CustomTerrainEditor : Editor
 	bool showSmooth = false;
 	bool showSplatMaps = false;
 	bool showHeights = false;
+	bool showVeg = false;
 
 	Texture2D hmTexture;
 
@@ -80,6 +87,11 @@ public class CustomTerrainEditor : Editor
 
 		splatMapTable = new GUITableState("splatMapTable");
 		hmTexture = new Texture2D(513, 513, TextureFormat.ARGB32, false);
+
+		vegMapTable = new GUITableState("vegMapTable");
+		vegetation = serializedObject.FindProperty("vegetation");
+		maxTrees = serializedObject.FindProperty("maxTrees");
+		treeSpacing = serializedObject.FindProperty("treeSpacing");
 	}
 
 	Vector2 scrollPos;
@@ -210,7 +222,33 @@ public class CustomTerrainEditor : Editor
 				terrain.SplatMaps();
 			}
 		}
+		showVeg = EditorGUILayout.Foldout(showVeg, "Vegetation");
+		if (showVeg)
+		{
+			EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+			GUILayout.Label("Vegetation", EditorStyles.boldLabel);
+			EditorGUILayout.IntSlider(maxTrees, 0, 10000, new GUIContent("Maximum Trees"));
+			EditorGUILayout.IntSlider(treeSpacing, 2, 20, new GUIContent("Trees Spacing"));
+			vegMapTable = GUITableLayout.DrawTable(vegMapTable,
+				serializedObject.FindProperty("vegetation"));
+			GUILayout.Space(20);
+			EditorGUILayout.BeginHorizontal();
+			if (GUILayout.Button("+"))
+			{
+				terrain.AddNewVegetation();
+			}
+			if (GUILayout.Button("-"))
+			{
+				terrain.RemoveVegetation();
+			}
+			EditorGUILayout.EndHorizontal();
+			if (GUILayout.Button("Apply Vegetation"))
+			{
+				terrain.PlantVegetation();
+			}
+		}
 
+		/////////
 		showSmooth = EditorGUILayout.Foldout(showSmooth, "Smooth");
 		if (showSmooth)
 		{
@@ -241,8 +279,8 @@ public class CustomTerrainEditor : Editor
 			if (GUILayout.Button("Refresh", GUILayout.Width(hmtSize)))
 			{
 				float[,] heightMap = terrain.terrainData.GetHeights(0, 0,
-					terrain.terrainData.heightmapResolution,
-					terrain.terrainData.heightmapResolution);
+					(int)terrain.terrainData.heightmapResolution,
+					(int)terrain.terrainData.heightmapResolution);
 				for (int y = 0; y < terrain.terrainData.heightmapResolution; y++)
 				{
 					for (int x = 0; x < terrain.terrainData.heightmapResolution; x++)
