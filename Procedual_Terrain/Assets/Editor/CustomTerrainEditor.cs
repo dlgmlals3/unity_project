@@ -24,10 +24,10 @@ public class CustomTerrainEditor : Editor
 	SerializedProperty voronoiMaxHeight;
 	SerializedProperty voronoiPeaks;
 	SerializedProperty voronoiType;
-	SerializedProperty MPDheightMin;
-	SerializedProperty MPDheightMax;
-	SerializedProperty MPDheightDampenerPower;
-	SerializedProperty MPDroughness;
+	SerializedProperty mpdHeightMin;
+	SerializedProperty mpdHeightMax;
+	SerializedProperty mpdHeightDampenerPower;
+	SerializedProperty mpdRoughness;
 	SerializedProperty smoothAmount;
 
 	GUITableState splatMapTable;
@@ -52,14 +52,21 @@ public class CustomTerrainEditor : Editor
 	bool showSplatMaps = false;
 	bool showHeights = false;
 	bool showVeg = false;
+	bool testkk = false;
 
 	Texture2D hmTexture;
 
+	private Vector2 scrollPos;
+
 	private void OnEnable()
 	{
+		resetTerrain = serializedObject.FindProperty("resetTerrain");
+
 		randomHeightRange = serializedObject.FindProperty("randomHeightRange");
 		heightMapScale = serializedObject.FindProperty("heightMapScale");
 		heightMapImage = serializedObject.FindProperty("heightMapImage");
+		
+		// PERLIN NOISE
 		perlinXScale = serializedObject.FindProperty("perlinXScale");
 		perlinYScale = serializedObject.FindProperty("perlinYScale");
 		perlinOffsetX = serializedObject.FindProperty("perlinOffsetX");
@@ -67,38 +74,48 @@ public class CustomTerrainEditor : Editor
 		perlinOctaves = serializedObject.FindProperty("perlinOctaves");
 		perlinPersistance = serializedObject.FindProperty("perlinPersistance");
 		perlinHeightScale = serializedObject.FindProperty("perlinHeightScale");
-		resetTerrain = serializedObject.FindProperty("resetTerrain");
 
 		perlinParameterTable = new GUITableState("perlinParameterTable");
 		perlinParameters = serializedObject.FindProperty("perlinParameters");
-
-		voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
-		voronoiDropOff = serializedObject.FindProperty("voronoiDropOff");
 		voronoiFallOff = serializedObject.FindProperty("voronoiFallOff");
+		voronoiDropOff = serializedObject.FindProperty("voronoiDropOff");
 		voronoiMinHeight = serializedObject.FindProperty("voronoiMinHeight");
 		voronoiMaxHeight = serializedObject.FindProperty("voronoiMaxHeight");
+		voronoiPeaks = serializedObject.FindProperty("voronoiPeaks");
 		voronoiType = serializedObject.FindProperty("voronoiType");
 
-		MPDheightMin = serializedObject.FindProperty("MPDheightMin");
-		MPDheightMax = serializedObject.FindProperty("MPDheightMax");
-		MPDheightDampenerPower = serializedObject.FindProperty("MPDheightDampenerPower");
-		MPDroughness = serializedObject.FindProperty("MPDroughness");
+		mpdHeightMin = serializedObject.FindProperty("mpdHeightMin");
+		mpdHeightMax = serializedObject.FindProperty("mpdHeightMax");
+		mpdHeightDampenerPower = serializedObject.FindProperty("mpdHeightDampenerPower");
+		mpdRoughness = serializedObject.FindProperty("mpdRoughness");
+
 		smoothAmount = serializedObject.FindProperty("smoothAmount");
 
 		splatMapTable = new GUITableState("splatMapTable");
-		hmTexture = new Texture2D(513, 513, TextureFormat.ARGB32, false);
+		splatHeigths = serializedObject.FindProperty("splatHeigths");
 
+		hmTexture = new Texture2D(513, 513, TextureFormat.ARGB32, false);
+		
 		vegMapTable = new GUITableState("vegMapTable");
 		vegetation = serializedObject.FindProperty("vegetation");
 		maxTrees = serializedObject.FindProperty("maxTrees");
 		treeSpacing = serializedObject.FindProperty("treeSpacing");
+
+		
 	}
 
-	Vector2 scrollPos;
+
 	public override void OnInspectorGUI()
 	{
 		serializedObject.Update();
 		CustomTerrain terrain = (CustomTerrain)target;
+
+		Rect r = EditorGUILayout.BeginVertical();
+		scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(r.width),
+			GUILayout.Height(r.height));
+		EditorGUI.indentLevel++;
+
+
 
 		EditorGUILayout.PropertyField(resetTerrain);
 		showRandom = EditorGUILayout.Foldout(showRandom, "Random");
@@ -188,15 +205,27 @@ public class CustomTerrainEditor : Editor
 		showMPD = EditorGUILayout.Foldout(showMPD, "MPD");
 		if (showMPD)
 		{
-			EditorGUILayout.PropertyField(MPDheightMin);
-			EditorGUILayout.PropertyField(MPDheightMax);
-			EditorGUILayout.PropertyField(MPDheightDampenerPower);
-			EditorGUILayout.PropertyField(MPDroughness);
+			EditorGUILayout.PropertyField(mpdHeightMin);
+			EditorGUILayout.PropertyField(mpdHeightMax);
+			EditorGUILayout.PropertyField(mpdHeightDampenerPower);
+			EditorGUILayout.PropertyField(mpdRoughness);
 			if (GUILayout.Button("MPD"))
 			{
 				terrain.MidPointDisplacement();
 			}
+
 		}
+
+		showSmooth = EditorGUILayout.Foldout(showSmooth, "Smooth");
+		if (showSmooth)
+		{
+			EditorGUILayout.IntSlider(smoothAmount, 1, 10, new GUIContent("smoothAmount"));
+			if (GUILayout.Button("Smooth"))
+			{
+				terrain.Smooth();
+			}
+		}
+
 
 		showSplatMaps = EditorGUILayout.Foldout(showSplatMaps, "Splat Maps");
 		if (showSplatMaps)
@@ -222,6 +251,50 @@ public class CustomTerrainEditor : Editor
 				terrain.SplatMaps();
 			}
 		}
+
+		showHeights = EditorGUILayout.Foldout(showHeights, "Height Map");
+		if (showHeights)
+		{
+			GUILayout.Label("showHeights", EditorStyles.boldLabel);
+			int hmtSize = (int)(EditorGUIUtility.currentViewWidth - 100);
+
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
+
+			GUILayout.Label(hmTexture, GUILayout.Width(hmtSize), GUILayout.Height(hmtSize));
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
+			if (GUILayout.Button("Refresh", GUILayout.Width(hmtSize)))
+			{
+				float[,] heightMap = terrain.terrainData.GetHeights(0, 0,
+					(int)terrain.terrainData.heightmapResolution,
+					(int)terrain.terrainData.heightmapResolution);
+				for (int y = 0; y < terrain.terrainData.alphamapHeight; y++)
+				{
+					for (int x = 0; x < terrain.terrainData.alphamapWidth; x++)
+					{
+						hmTexture.SetPixel(x, y, new Color(
+							heightMap[x, y],
+							heightMap[x, y],
+							heightMap[x, y], 1));
+					}
+				}
+				hmTexture.Apply();
+			}
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
+		}
+
+		EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+		if (GUILayout.Button("Reset Terrain"))
+		{
+			terrain.ResetTerrain();
+		}
+
+
 		showVeg = EditorGUILayout.Foldout(showVeg, "Vegetation");
 		if (showVeg)
 		{
@@ -248,55 +321,16 @@ public class CustomTerrainEditor : Editor
 			}
 		}
 
-		/////////
-		showSmooth = EditorGUILayout.Foldout(showSmooth, "Smooth");
-		if (showSmooth)
-		{
-			EditorGUILayout.IntSlider(smoothAmount, 1, 10, new GUIContent("smoothAmount"));
-			if (GUILayout.Button("Smooth"))
-			{
-				terrain.Smooth();
-			}
-		}
-
-		EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-		if (GUILayout.Button("Reset Terrain"))
-		{
-			terrain.ResetTerrain();
-		}
-
-		showHeights = EditorGUILayout.Foldout(showLoadHeights, "Height Map");
-		if (showHeights)
-		{
-			GUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace();
-			int hmtSize = (int)(EditorGUIUtility.currentViewWidth - 100);
-			GUILayout.Label(hmTexture, GUILayout.Width(hmtSize), GUILayout.Height(hmtSize));
-			GUILayout.FlexibleSpace();
-			GUILayout.EndHorizontal();
-			GUILayout.BeginHorizontal();
-			GUILayout.FlexibleSpace();
-			if (GUILayout.Button("Refresh", GUILayout.Width(hmtSize)))
-			{
-				float[,] heightMap = terrain.terrainData.GetHeights(0, 0,
-					(int)terrain.terrainData.heightmapResolution,
-					(int)terrain.terrainData.heightmapResolution);
-				for (int y = 0; y < terrain.terrainData.heightmapResolution; y++)
-				{
-					for (int x = 0; x < terrain.terrainData.heightmapResolution; x++)
-					{
-						hmTexture.SetPixel(x, y, new Color(
-							heightMap[x, y],
-							heightMap[x, y],
-							heightMap[x, y], 1));
-					}
-				}
-				hmTexture.Apply();
-			}
-			GUILayout.FlexibleSpace();
-			GUILayout.EndHorizontal();
-		}
+		EditorGUILayout.EndScrollView();
+		EditorGUILayout.EndVertical();
 		serializedObject.ApplyModifiedProperties();
 	}
-
 }
+
+/*
+
+
+
+
+/////////
+*/
